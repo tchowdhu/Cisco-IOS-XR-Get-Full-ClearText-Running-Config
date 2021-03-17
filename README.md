@@ -47,8 +47,8 @@ We could easily utilize the python ztp_helper (by default available in the pytho
 The third file "ztp_python_xr_get_cli_cfg.py" includes the code for this purpose.
 Simply log into the XR box.
 
->>bash (to get into the linux enviroment)
->>python ztp_python_xr_get_cli_cfg.py (run this command).
+1.  bash (to get into the linux enviroment)
+2.  python ztp_python_xr_get_cli_cfg.py (run this command).
 
 ## License
 
