@@ -44,7 +44,7 @@ The only required libraries are "ncclient" and/or "xml.etree.ElementTree". Howev
 ## Alternate:
 
 We could easily utilize the python ztp_helper (by default available in the python enviroment of IOS-XR) to get clear text cli.
-The third file "ztp_python_xr_get_cli_cfg.py" includes the code for this purpose.
+The third file "ztp_python_xr_get_cli_cfg.py" includes the code for this purpose. User requires copy this file inside the IOS-XR device.
 Simply log into the XR box.
 
 1.  bash (to get into the linux enviroment)
