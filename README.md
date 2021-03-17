@@ -41,6 +41,14 @@ This script has been tested with python 3.6.X version. So, recommending python 3
 
 The only required libraries are "ncclient" and/or "xml.etree.ElementTree". However, the requirements.txt file includes the environment setup on which the scripts were tested.
 
+## Alternate:
+
+We could easily utilize the python ztp_helper (by default available in the python enviroment of IOS-XR) to get clear text cli.
+The third file "ztp_python_xr_get_cli_cfg.py" includes the code for this purpose.
+Simply log into the XR box.
+
+>> bash (to get into the linux enviroment)
+>> python ztp_python_xr_get_cli_cfg.py (run this command).
 
 ## License
 
