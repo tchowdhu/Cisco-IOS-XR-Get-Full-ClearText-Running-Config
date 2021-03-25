@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Cisco-IOS-XR-Get-Full-ClearText-Running-Config-using-Netconf Console Script.
+"""Cisco-IOS-XR-Get-Full-ClearText-Running-Config Console Script.
 
 Copyright (c) 2021 Cisco and/or its affiliates.
 
