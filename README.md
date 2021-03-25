@@ -1,4 +1,4 @@
-# Cisco-IOS-XR-Get-Full-ClearText-Running-Config-using-Netconf
+# Cisco-IOS-XR-Get-Full-ClearText-Running-Config
 
 This is a work around to retrieve clear text running config using ncclient get_config API for Cisco IOS-XR router. 
 The example scripts remove the xml tags and keep the clear text running config. 
