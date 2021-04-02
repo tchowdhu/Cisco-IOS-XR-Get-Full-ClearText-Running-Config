@@ -27,11 +27,7 @@ __license__ = "Cisco Sample Code License, Version 1.1"
 
 #importing libraries
 from ncclient import manager
-
-#Device credential for netconf
-host='A.B.C.D'
-username='username'
-password='password'
+import getpass
 
 #filter to retrieve config
 cli_cfg_filter= """
@@ -40,30 +36,41 @@ cli_cfg_filter= """
     </filter>
 """
 
-#Retrieving config from node using netconf
-with manager.connect(host=host,
-                     port=830,
-                     username=username,
-                     password=password,
-                     hostkey_verify=False,
-                     look_for_keys = False) as netconf_connection:
+while(True):
+    # Device credential for netconf
+    host = input("\nEnter Host IP-Address('q/Q to quit'): ")
+    if host.upper() == 'Q':
+        break
+    username = input('Enter Username: ')
+    password = getpass.getpass('Enter Password: ')
 
-    config = netconf_connection.get_config("running", filter=cli_cfg_filter)
+    # Retrieving config from node using netconf
+    with manager.connect(host=host,
+                         port=830,
+                         username=username,
+                         password=password,
+                         hostkey_verify=False,
+                         look_for_keys=False) as netconf_connection:
 
-#Parsing CLI config in text format i.e. removing xml tags,
-#This portion of code will be added to the existing code
-config_data_string = config.data_xml
-parsed_config=''
-for item in config_data_string.split("\n"):
-    if ('<data' not in item) and \
-            ('</data>' not in item) and \
-            ('<cli' not in item) and \
-            ('</cli>' not in item):
-        parsed_config += item + '\n'
-parsed_config = parsed_config.strip()
-print(parsed_config)
+        config = netconf_connection.get_config("running", filter=cli_cfg_filter)
 
-#Storing device configruation in a text file
-with open("%s.txt" % host, 'w') as f:
-    f.write(parsed_config)
+    # Parsing CLI config in text format i.e. removing xml tags,
+    # This portion of code will be added to the existing code
+    config_data_string = config.data_xml
+    parsed_config = ''
+    for item in config_data_string.split("\n"):
+        if ('<data' not in item) and \
+                ('</data>' not in item) and \
+                ('<cli' not in item) and \
+                ('</cli>' not in item):
+            parsed_config += item + '\n'
+    parsed_config = parsed_config.strip()
+    print(parsed_config)
 
+    # Storing device configruation in a text file
+    filename = "%s.txt" % host.replace('.', '_')
+    with open(filename, 'w') as f:
+        f.write(parsed_config)
+    print('\nThe running-configuration has been saved in the file: {}'.format(filename))
+    print('\nGoing for the next host...')
+  
