@@ -25,15 +25,11 @@ __version__ = "0.1.0"
 __copyright__ = "Copyright (c) 2021 Cisco and/or its affiliates."
 __license__ = "Cisco Sample Code License, Version 1.1"
 
-
 #importing libraries
 from ncclient import manager
+import getpass
 import xml.etree.ElementTree as ET #import this standard library into exisiting code.
 
-#Device credential for netconf
-host='A.B.C.D'
-username='username'
-password='password'
 
 #filter to retrieve config
 cli_cfg_filter= """
@@ -42,23 +38,37 @@ cli_cfg_filter= """
     </filter>
 """
 
-#Retrieving config from node using netconf
-with manager.connect(host=host,
-                     port=830,
-                     username=username,
-                     password=password,
-                     hostkey_verify=False,
-                     look_for_keys = False) as netconf_connection:
+while(True):
+    # Device credential for netconf
+    host = input("\nEnter Host IP-Address('q/Q to quit'): ")
+    if host.upper() == 'Q':
+        break
+    username = input('Enter Username: ')
+    password = getpass.getpass('Enter Password: ')
 
-    config = netconf_connection.get_config("running", filter=cli_cfg_filter)
+    # Retrieving config from node using netconf
+    with manager.connect(host=host,
+                         port=830,
+                         username=username,
+                         password=password,
+                         hostkey_verify=False,
+                         look_for_keys=False) as netconf_connection:
+        config = netconf_connection.get_config("running", filter=cli_cfg_filter)
 
-#Parsing CLI config in text format i.e. removing xml tags,
-#This line below will be added to the existing code.
-config = ET.fromstring(config.data_xml)[0].text.strip()
+    '''
+    #Parsing CLI config in text format i.e. removing xml tags,
+    #This line below will be added to the existing code.
+    '''
 
-print(config)
+    config = ET.fromstring(config.data_xml)[0].text.strip()
 
-#Storing device configruation in a text file
-with open("%s.txt" % host, 'w') as f:
-    f.write(config)
+    print(config)
+
+    # Storing device configruation in a text file
+    filename = "%s.txt" % host.replace('.', '_')
+    with open(filename, 'w') as f:
+        f.write(config)
+    print('\nThe running-configuration has been saved in the file: {}'.format(filename))
+    print('\nGoing for the next host...')
+
 
